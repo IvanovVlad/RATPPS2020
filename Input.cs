@@ -1,30 +1,20 @@
 ﻿using System;
-using System.Xml.Serialization;
+using System.Linq;
 
 namespace Serializer
 {   
-    [XmlRoot(ElementName = "Input")]
     public class Input
     {
-        [XmlElement(ElementName = "K")]
         public int K { get; set; }
-        [XmlElement(ElementName = "Sums")]
         public decimal[] Sums { get; set; }
-        [XmlElement(ElementName = "Muls")]
         public int[] Muls { get; set; }
 
-        public decimal summ()
+        public decimal Summ()
         {
-            decimal sum = 0;
-            for (int i = 0; i < Sums.Length; i++)
-            {
-                sum += Sums[i];
-            }
-
-            return sum;
+            return Sums.Sum();
         }
 
-        public int mul()
+        public int Mul()
         {
             int mul = 1;
             for (int i = 0; i < Muls.Length; i++)
@@ -35,7 +25,7 @@ namespace Serializer
             return mul;
         }
 
-        public decimal[] sort()
+        public decimal[] Sort()
         {
             decimal[] accum = new decimal[Sums.Length + Muls.Length];
 

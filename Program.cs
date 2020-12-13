@@ -12,7 +12,9 @@ namespace Serializer
                 Muls = new int[]{ 1, 4 }
             };
             ISerializer serializer;
+
             var type = Console.ReadLine();
+
             if (type == "json")
                 serializer = new JSONSerializer();
             else
@@ -26,15 +28,13 @@ namespace Serializer
 
             var output = new Output
             {
-                SumResult = deserializedInput.summ(),
-                MulResult = deserializedInput.mul(),
-                SortedInputs = deserializedInput.sort()
+                SumResult = deserializedInput.Summ(),
+                MulResult = deserializedInput.Mul(),
+                SortedInputs = deserializedInput.Sort()
             };
 
             str = serializer.Serialize<Output>(output);
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine(str);
+            Console.WriteLine('\n' + str);
             Console.WriteLine(output);
             Console.ReadLine();
         }

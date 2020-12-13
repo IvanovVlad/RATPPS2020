@@ -7,24 +7,20 @@ namespace Serializer
     {
         public T Deserialize<T>(string str)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-            using (var fs = File.OpenRead("input.xml"))
+            using (var sr = new StringReader(str))
             {
-                return (T)xmlSerializer.Deserialize(fs);
+                var serializer = new XmlSerializer(typeof(T));
+                return (T)serializer.Deserialize(sr);
             }
         }
 
         public string Serialize<T>(T obj)
         {
-            var file = "input.xml";
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-            using (var fs = File.Create(file))
+            using (var sw = new StringWriter())
             {
-                xmlSerializer.Serialize(fs, obj);
-            }
-            using (var fs = File.OpenText(file))
-            {
-                return fs.ReadToEnd();
+                var serializer = new XmlSerializer(typeof(T));
+                serializer.Serialize(sw, obj);
+                return sw.ToString();
             }
         }
     }
