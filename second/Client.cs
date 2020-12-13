@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Text;
+using Exception = System.Exception;
 
 namespace HTTPClient
 {
@@ -12,26 +13,50 @@ namespace HTTPClient
             try
             {
                 client.DownloadString(link);
-                return true;
             }
-            catch (Exception e)
+            catch
             {
-                Console.WriteLine(e.ToString());
                 return false;
             }
+
+            return true;
         }
 
         public string GetInputData(string link)
         {
             var client = new WebClient();
-            return client.DownloadString(link);
+            try
+            {
+                return client.DownloadString(link);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
-        public void WriteAnswer(string link, string answer)
+        public bool WriteAnswer(string link, string answer)
         {
             var client = new WebClient();
-            var sendstring = Encoding.UTF8.GetBytes(answer);
-            client.UploadData(link, sendstring);
+            var sendString = Encoding.UTF8.GetBytes(answer);
+            try
+            {
+                client.UploadData(link, sendString);
+            }
+            catch (WebException e)
+            {
+                Console.WriteLine(e.Status);
+                if (e.Response is HttpWebResponse response)
+                {
+                    if ((int)response.StatusCode == 302)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace HTTPClient
+﻿using System;
+
+namespace HTTPClient
 {
     class Program
     {
